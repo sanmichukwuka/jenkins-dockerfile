@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+    
+    options {
+        skipStagesAfterUnstable()
+    }
+
+    stages {
+        stage('clone repo') {
+
+            script {
+                checkout scm
+            }
+
+        }
+        stage('Build Image') {
+            app = docker.build("ubuntunginx")
+        }
+        stage('Push to ECR') {
+            script {
+               docker.withRegistry('https://681478331750.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-credentials') {
+                 app.push("${env.BUILD_NUMBER}")
+                 app.push("latest")
+               }
+            }
+        }
+    }
+
+}
