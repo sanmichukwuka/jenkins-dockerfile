@@ -7,22 +7,31 @@ pipeline{
 
     stages {
         stage('clone repo') {
-
-            script {
-                checkout scm
+            steps {
+                script {
+                     checkout scm
+                }
             }
-
         }
+
         stage('Build Image') {
-            app = docker.build("ubuntunginx")
+            steps {
+                script {
+                     app = docker.build("ubuntunginx")
+                }
+            }
+           
         }
         stage('Push to ECR') {
-            script {
-               docker.withRegistry('https://681478331750.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:jenkinsuser') {
-                 app.push("${env.BUILD_NUMBER}")
-                 app.push("latest")
-               }
+            steps {
+                script {
+                    docker.withRegistry('https://681478331750.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:jenkinsuser') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                }
+              }
             }
+            
         }
     }
 
