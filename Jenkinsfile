@@ -17,7 +17,7 @@ pipeline{
         stage('Build Image') {
             steps {
                 script {
-                     app = docker.build("ubuntunginx")
+                     app = docker.build("ubuntunginx:${env.BUILD_NUMBER}")
                 }
             }
            
