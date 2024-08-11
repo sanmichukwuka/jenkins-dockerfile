@@ -22,11 +22,6 @@ pipeline{
             }
            
         }
-        stage('Scan Image') {
-            steps {
-                sh "trivy image 681478331750.dkr.ecr.us-east-1.amazonaws.com/ubuntunginx:${env.BUILD_NUMBER}"
-            }
-        }
         stage('Push to ECR') {
             steps {
                 script {
@@ -38,6 +33,12 @@ pipeline{
             }
             
         }
+        stage('Scan Image') {
+            steps {
+                sh "trivy image 681478331750.dkr.ecr.us-east-1.amazonaws.com/ubuntunginx:${env.BUILD_NUMBER}"
+            }
+        }
+        
     }
 
 }
