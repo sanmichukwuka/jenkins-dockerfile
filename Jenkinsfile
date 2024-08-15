@@ -35,7 +35,7 @@ pipeline{
         stage('Push to ECR') {
             steps {
                 script {
-                    docker.withRegistry('${ECR_NAME}', 'ecr:us-east-1:jenkinsuser') {
+                    docker.withRegistry("${ECR_NAME}", 'ecr:us-east-1:jenkinsuser') {
                     app.push("${env.BUILD_NUMBER}")
                 }
               }
